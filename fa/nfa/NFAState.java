@@ -8,10 +8,8 @@ import java.util.Set;
 
 /**
  * Represents a single state in a Nondeterministic Finite Automaton (NFA).
- * Extends the abstract {@link fa.State} class and adds support for
- * nondeterministic transitions (including epsilon transitions).
- *
- * @author student
+ * 
+ * @author Lucas Coltrin, Leo Haener-Pope
  */
 public class NFAState extends State {
 

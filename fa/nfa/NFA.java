@@ -5,7 +5,12 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.Stack;
 
-
+/**
+ * Represents a Definite Finite Automaton, where each DFA state can have a transition pertaining to
+ * each letter in the sigma, with no limit on how many transitions per character
+ * 
+ * @author Lucas Coltrin, Leo Haener-Pope
+ */
 public class NFA implements NFAInterface {
 
     //NFA 5-tuple
