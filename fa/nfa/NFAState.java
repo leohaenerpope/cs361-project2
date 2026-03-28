@@ -57,17 +57,23 @@ public class NFAState extends State {
      */
     public void addTransition(char onSymb, NFAState toState) {
         // Get or create the set of destination states for this symbol
-        transitions.computeIfAbsent(onSymb, k -> new HashSet<>()).add(toState);
+        if (!transitions.containsKey(onSymb)) {
+            transitions.put(onSymb, new HashSet<>());
+        }
+        transitions.get(onSymb).add(toState);
     }
 
     /**
-     * Returns the set of states reachable from this state on the given symbol.
+     * Returns the set of states reachable from this state on the given symbol, or empty if no transition
      *
      * @param onSymb the input symbol to look up ('e' for epsilon)
      * @return a set of reachable NFAStates (may be empty, never null)
      */
-    public Set<NFAState> toStates(char onSymb) {
-        return transitions.getOrDefault(onSymb, new HashSet<>());
+    public Set<NFAState> getTransitions(char onSymb) {
+        if (transitions.containsKey(onSymb)) {
+            return transitions.get(onSymb);
+        }
+        return new HashSet<>();
     }
 
     /**
