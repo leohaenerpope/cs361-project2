@@ -106,7 +106,7 @@ public class NFA implements NFAInterface {
             // Collect all states reachable on this symbol from every current state
             Set<NFAState> next = new HashSet<>();
             for (NFAState state : current) {
-                next.addAll(state.toStates(symbol));
+                next.addAll(state.getTransitions(symbol));
             }
 
             // Expand with epsilon closure of every newly reached state
@@ -181,7 +181,7 @@ public class NFA implements NFAInterface {
      */
     @Override
     public Set<NFAState> getToState(NFAState from, char onSymb) {
-        return from.toStates(onSymb);
+        return from.getTransitions(onSymb);
     }
 
     /**
@@ -203,7 +203,7 @@ public class NFA implements NFAInterface {
             // closure.add returns false if already present — skip already-visited states
             if (closure.add(current)) {
                 // Push all epsilon-reachable neighbors that haven't been visited
-                for (NFAState neighbor : current.toStates('e')) {
+                for (NFAState neighbor : current.getTransitions('e')) {
                     if (!closure.contains(neighbor)) {
                         stack.push(neighbor);
                     }
@@ -234,7 +234,7 @@ public class NFA implements NFAInterface {
             // Transition all current states on the symbol
             Set<NFAState> next = new HashSet<>();
             for (NFAState state : current) {
-                next.addAll(state.toStates(symbol));
+                next.addAll(state.getTransitions(symbol));
             }
 
             // Apply epsilon closure to every reached state
@@ -295,11 +295,11 @@ public class NFA implements NFAInterface {
     public boolean isDFA() {
         for (NFAState state : states) {
             // Any epsilon transition disqualifies the NFA from being a DFA
-            if (!state.toStates('e').isEmpty()) return false;
+            if (!state.getTransitions('e').isEmpty()) return false;
 
             // Each symbol must map to exactly one state (no missing or ambiguous transitions)
             for (char c : sigma) {
-                if (state.toStates(c).size() != 1) return false;
+                if (state.getTransitions(c).size() != 1) return false;
             }
         }
         return true;
